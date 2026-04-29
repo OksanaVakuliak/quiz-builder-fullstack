@@ -17,7 +17,10 @@ const questionSchema = z
     options: z.array(optionSchema).optional(),
   })
   .superRefine((question, ctx) => {
-    if (question.type === 'BOOLEAN' && typeof question.booleanAnswer !== 'boolean') {
+    if (
+      question.type === 'BOOLEAN' &&
+      typeof question.booleanAnswer !== 'boolean'
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Choose True or False answer',
@@ -25,7 +28,10 @@ const questionSchema = z
       });
     }
 
-    if (question.type === 'INPUT' && (!question.inputAnswer || !question.inputAnswer.trim())) {
+    if (
+      question.type === 'INPUT' &&
+      (!question.inputAnswer || !question.inputAnswer.trim())
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Input answer is required',
@@ -54,7 +60,11 @@ const questionSchema = z
   });
 
 export const createQuizSchema = z.object({
-  title: z.string().trim().min(3, 'Title must be at least 3 characters').max(120),
+  title: z
+    .string()
+    .trim()
+    .min(3, 'Title must be at least 3 characters')
+    .max(120),
   description: z.string().trim().max(500).optional(),
   questions: z.array(questionSchema).min(1, 'Add at least one question'),
 });

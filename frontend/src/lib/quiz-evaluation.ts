@@ -17,7 +17,7 @@ const normalizeText = (value: string): string => value.trim().toLowerCase();
 
 export const evaluateQuestion = (
   question: Question,
-  answers: QuizAnswersSnapshot
+  answers: QuizAnswersSnapshot,
 ): QuestionEvaluation => {
   const questionKey = toQuestionKey(question.id);
 
@@ -28,7 +28,10 @@ export const evaluateQuestion = (
 
     return {
       isAnswered,
-      isCorrect: isAnswered && typeof expectedAnswer === 'boolean' && userAnswer === expectedAnswer,
+      isCorrect:
+        isAnswered &&
+        typeof expectedAnswer === 'boolean' &&
+        userAnswer === expectedAnswer,
     };
   }
 
@@ -39,7 +42,9 @@ export const evaluateQuestion = (
 
     return {
       isAnswered,
-      isCorrect: isAnswered && normalizeText(userAnswer) === normalizeText(expectedAnswer),
+      isCorrect:
+        isAnswered &&
+        normalizeText(userAnswer) === normalizeText(expectedAnswer),
     };
   }
 
@@ -61,17 +66,23 @@ export const evaluateQuestion = (
 
 export const evaluateQuiz = (
   questions: Question[],
-  answers: QuizAnswersSnapshot
+  answers: QuizAnswersSnapshot,
 ): Record<string, QuestionEvaluation> => {
-  return questions.reduce<Record<string, QuestionEvaluation>>((accumulator, question) => {
-    accumulator[toQuestionKey(question.id)] = evaluateQuestion(question, answers);
-    return accumulator;
-  }, {});
+  return questions.reduce<Record<string, QuestionEvaluation>>(
+    (accumulator, question) => {
+      accumulator[toQuestionKey(question.id)] = evaluateQuestion(
+        question,
+        answers,
+      );
+      return accumulator;
+    },
+    {},
+  );
 };
 
 export const countCorrectAnswers = (
   questions: Question[],
-  evaluations: Record<string, QuestionEvaluation>
+  evaluations: Record<string, QuestionEvaluation>,
 ): number => {
   return questions.reduce((total, question) => {
     const evaluation = evaluations[toQuestionKey(question.id)];

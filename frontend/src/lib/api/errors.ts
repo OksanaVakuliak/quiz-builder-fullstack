@@ -12,18 +12,27 @@ export class ApiRequestError extends Error {
   }
 }
 
-export const extractApiErrorMessage = (payload: unknown, fallbackMessage: string): string => {
+export const extractApiErrorMessage = (
+  payload: unknown,
+  fallbackMessage: string,
+): string => {
   if (!payload || typeof payload !== 'object') {
     return fallbackMessage;
   }
 
   const maybeError = payload as Partial<ApiErrorResponse>;
 
-  if (typeof maybeError.message === 'string' && maybeError.message.trim().length > 0) {
+  if (
+    typeof maybeError.message === 'string' &&
+    maybeError.message.trim().length > 0
+  ) {
     return maybeError.message;
   }
 
-  if (typeof maybeError.error === 'string' && maybeError.error.trim().length > 0) {
+  if (
+    typeof maybeError.error === 'string' &&
+    maybeError.error.trim().length > 0
+  ) {
     return maybeError.error;
   }
 

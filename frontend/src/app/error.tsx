@@ -22,10 +22,13 @@ export default function AppErrorPage({ error, reset }: AppErrorPageProps) {
         <p className={styles.badge}>Unexpected error</p>
         <h1 className="pageTitle">Something broke while loading this view</h1>
         <p className="pageSubtitle">
-          You can retry this action or go back to a stable page and continue working.
+          You can retry this action or go back to a stable page and continue
+          working.
         </p>
 
-        {error.digest ? <p className={styles.digest}>Reference: {error.digest}</p> : null}
+        {error.digest ? (
+          <p className={styles.digest}>Reference: {error.digest}</p>
+        ) : null}
 
         <div className={styles.actions}>
           <Button type="button" onClick={reset}>

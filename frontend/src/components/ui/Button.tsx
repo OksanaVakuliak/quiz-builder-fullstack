@@ -1,4 +1,10 @@
-import { ButtonHTMLAttributes, ReactElement, ReactNode, cloneElement, isValidElement } from 'react';
+import {
+  ButtonHTMLAttributes,
+  ReactElement,
+  ReactNode,
+  cloneElement,
+  isValidElement,
+} from 'react';
 import styles from './Button.module.css';
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger';
@@ -9,8 +15,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
 }
 
-export function Button({ children, variant = 'primary', asChild = false, ...props }: ButtonProps) {
-  const className = [styles.button, styles[variant], props.className].filter(Boolean).join(' ');
+export function Button({
+  children,
+  variant = 'primary',
+  asChild = false,
+  ...props
+}: ButtonProps) {
+  const className = [styles.button, styles[variant], props.className]
+    .filter(Boolean)
+    .join(' ');
 
   if (asChild && isValidElement(children)) {
     const child = children as ReactElement<{ className?: string }>;

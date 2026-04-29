@@ -37,7 +37,11 @@
   --shadow-modal: 0 24px 44px rgba(10, 23, 40, 0.25);
   --focus-ring-accent: 0 0 0 3px rgba(0, 127, 115, 0.16);
   --overlay-modal: rgba(12, 24, 40, 0.5);
-  --aura-accent: radial-gradient(circle, rgba(0, 127, 115, 0.24) 0%, rgba(0, 127, 115, 0) 72%);
+  --aura-accent: radial-gradient(
+    circle,
+    rgba(0, 127, 115, 0.24) 0%,
+    rgba(0, 127, 115, 0) 72%
+  );
   --ring-accent: 2px dashed rgba(0, 100, 90, 0.35);
   --page-section-gap: 1.5rem;
   --layout-center-min-height: 62vh;
@@ -54,7 +58,11 @@ body {
   padding: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(0, 127, 115, 0.14), transparent 38%),
+    radial-gradient(
+      circle at top right,
+      rgba(0, 127, 115, 0.14),
+      transparent 38%
+    ),
     linear-gradient(180deg, #f8fafc 0%, var(--bg-main) 100%);
   color: var(--text-main);
   font-family: var(--font-body), sans-serif;

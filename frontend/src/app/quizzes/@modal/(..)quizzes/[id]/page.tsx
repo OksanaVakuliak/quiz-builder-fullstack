@@ -16,7 +16,9 @@ interface ModalQuizDetailPageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: ModalQuizDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ModalQuizDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const quizId = parseQuizId(id);
 
@@ -39,7 +41,9 @@ const getInitialQuiz = async (quizId: number) => {
   }
 };
 
-export default async function ModalQuizDetailPage({ params }: ModalQuizDetailPageProps) {
+export default async function ModalQuizDetailPage({
+  params,
+}: ModalQuizDetailPageProps) {
   const { id } = await params;
   const quizId = parseQuizId(id);
 

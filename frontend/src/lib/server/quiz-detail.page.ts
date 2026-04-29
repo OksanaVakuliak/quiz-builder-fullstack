@@ -33,13 +33,16 @@ export const createInvalidQuizDetailMetadata = (): Metadata => {
   });
 };
 
-export const createQuizDetailMetadata = async (quizId: number): Promise<Metadata> => {
+export const createQuizDetailMetadata = async (
+  quizId: number,
+): Promise<Metadata> => {
   try {
     const quiz = await fetchQuizByIdCached(quizId);
 
     return createPageMetadata({
       title: quiz.title,
-      description: quiz.description?.trim() || 'Open this quiz and check your answers.',
+      description:
+        quiz.description?.trim() || 'Open this quiz and check your answers.',
       path: `/quizzes/${quizId}`,
       type: 'article',
     });

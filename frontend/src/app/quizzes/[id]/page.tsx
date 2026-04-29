@@ -15,7 +15,9 @@ interface QuizDetailPageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: QuizDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: QuizDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const quizId = parseQuizId(id);
 

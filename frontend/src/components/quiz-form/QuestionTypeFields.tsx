@@ -11,7 +11,12 @@ interface QuestionTypeFieldsProps {
   errors: FieldErrors<CreateQuizFormValues>;
 }
 
-export function QuestionTypeFields({ index, question, setValue, errors }: QuestionTypeFieldsProps) {
+export function QuestionTypeFields({
+  index,
+  question,
+  setValue,
+  errors,
+}: QuestionTypeFieldsProps) {
   const questionErrors = errors.questions?.[index];
 
   if (question.type === 'BOOLEAN') {
@@ -20,7 +25,9 @@ export function QuestionTypeFields({ index, question, setValue, errors }: Questi
         index={index}
         question={question}
         setValue={setValue}
-        errorMessage={questionErrors?.booleanAnswer?.message as string | undefined}
+        errorMessage={
+          questionErrors?.booleanAnswer?.message as string | undefined
+        }
       />
     );
   }
@@ -31,7 +38,9 @@ export function QuestionTypeFields({ index, question, setValue, errors }: Questi
         index={index}
         question={question}
         setValue={setValue}
-        errorMessage={questionErrors?.inputAnswer?.message as string | undefined}
+        errorMessage={
+          questionErrors?.inputAnswer?.message as string | undefined
+        }
       />
     );
   }

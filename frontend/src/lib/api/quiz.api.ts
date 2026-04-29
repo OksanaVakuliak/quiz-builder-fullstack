@@ -4,7 +4,8 @@ import { apiClient } from './client';
 
 export const quizApi = {
   async getAll(): Promise<QuizSummary[]> {
-    const response = await apiClient.get<ApiResponse<QuizSummary[]>>('/quizzes');
+    const response =
+      await apiClient.get<ApiResponse<QuizSummary[]>>('/quizzes');
     return response.data.data;
   },
 
@@ -14,7 +15,10 @@ export const quizApi = {
   },
 
   async create(payload: CreateQuizPayload): Promise<Quiz> {
-    const response = await apiClient.post<ApiResponse<Quiz>>('/quizzes', payload);
+    const response = await apiClient.post<ApiResponse<Quiz>>(
+      '/quizzes',
+      payload,
+    );
     return response.data.data;
   },
 

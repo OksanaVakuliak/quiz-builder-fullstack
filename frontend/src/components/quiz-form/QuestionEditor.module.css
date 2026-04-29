@@ -1,7 +1,11 @@
 .wrapper {
   display: grid;
   gap: 0.9rem;
-  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--surface-elevated) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--bg-surface) 0%,
+    var(--surface-elevated) 100%
+  );
 }
 
 .headerRow {

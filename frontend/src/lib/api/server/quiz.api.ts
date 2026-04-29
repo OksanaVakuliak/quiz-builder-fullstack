@@ -3,11 +3,13 @@ import { extractApiErrorMessage } from '@/lib/api/errors';
 import { ApiResponse } from '@/types/api.types';
 import { Quiz, QuizSummary } from '@/types/quiz.types';
 
-const fallbackAppBaseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const fallbackAppBaseUrl =
+  process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 const getAppBaseUrl = async (): Promise<string> => {
   const requestHeaders = await headers();
-  const host = requestHeaders.get('x-forwarded-host') || requestHeaders.get('host');
+  const host =
+    requestHeaders.get('x-forwarded-host') || requestHeaders.get('host');
   const protocol = requestHeaders.get('x-forwarded-proto') || 'http';
 
   if (!host) {

@@ -16,7 +16,10 @@ export const createDefaultOption = (order: number): CheckboxOptionForm => ({
   order,
 });
 
-export const createDefaultQuestion = (type: QuestionType, order: number): QuestionForm => {
+export const createDefaultQuestion = (
+  type: QuestionType,
+  order: number,
+): QuestionForm => {
   const clientId = createClientId();
 
   if (type === 'BOOLEAN') {
@@ -51,7 +54,9 @@ export const createDefaultQuestion = (type: QuestionType, order: number): Questi
   };
 };
 
-export const normalizeQuestionOrders = (questions: QuestionForm[]): QuestionForm[] => {
+export const normalizeQuestionOrders = (
+  questions: QuestionForm[],
+): QuestionForm[] => {
   return questions.map((question, questionIndex) => ({
     clientId: question.clientId || createClientId(),
     ...question,
@@ -64,7 +69,9 @@ export const normalizeQuestionOrders = (questions: QuestionForm[]): QuestionForm
   }));
 };
 
-export const mapFormToPayload = (values: CreateQuizFormValues): CreateQuizPayload => {
+export const mapFormToPayload = (
+  values: CreateQuizFormValues,
+): CreateQuizPayload => {
   const normalizedQuestions = normalizeQuestionOrders(values.questions);
 
   return {

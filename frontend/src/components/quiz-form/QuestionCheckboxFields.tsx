@@ -2,7 +2,10 @@ import { UseFormSetValue } from 'react-hook-form';
 import { createDefaultOption } from '@/lib/mappers';
 import { CreateQuizFormValues, QuestionForm } from '@/types/quiz.types';
 import { Button } from '@/components/ui/Button';
-import { normalizeOptionOrders, setValidatedFormValue } from './form-value.helpers';
+import {
+  normalizeOptionOrders,
+  setValidatedFormValue,
+} from './form-value.helpers';
 import styles from './QuestionEditor.module.css';
 
 interface QuestionCheckboxFieldsProps {
@@ -18,7 +21,10 @@ export function QuestionCheckboxFields({
   setValue,
   errorMessage,
 }: QuestionCheckboxFieldsProps) {
-  const options = question.options || [createDefaultOption(0), createDefaultOption(1)];
+  const options = question.options || [
+    createDefaultOption(0),
+    createDefaultOption(1),
+  ];
   const optionsLabelId = `question-${index}-options-label`;
   const optionsErrorId = `question-${index}-options-error`;
   const hasError = Boolean(errorMessage);
@@ -27,7 +33,7 @@ export function QuestionCheckboxFields({
     setValidatedFormValue(
       setValue,
       `questions.${index}.options`,
-      normalizeOptionOrders(nextOptions)
+      normalizeOptionOrders(nextOptions),
     );
   };
 
@@ -61,8 +67,14 @@ export function QuestionCheckboxFields({
         aria-describedby={hasError ? optionsErrorId : undefined}
       >
         {options.map((option, optionIndex) => (
-          <div key={option.clientId || `option-${optionIndex}`} className={styles.optionRow}>
-            <label htmlFor={`question-${index}-option-${optionIndex}-label`} className="srOnly">
+          <div
+            key={option.clientId || `option-${optionIndex}`}
+            className={styles.optionRow}
+          >
+            <label
+              htmlFor={`question-${index}-option-${optionIndex}-label`}
+              className="srOnly"
+            >
               Option {optionIndex + 1} text
             </label>
             <input

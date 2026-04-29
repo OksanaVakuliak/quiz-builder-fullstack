@@ -14,7 +14,12 @@ export function Toast({ message, variant = 'success', onClose }: ToastProps) {
       aria-live="polite"
     >
       <p className={styles.message}>{message}</p>
-      <button type="button" onClick={onClose} className={styles.close} aria-label="Close toast">
+      <button
+        type="button"
+        onClick={onClose}
+        className={styles.close}
+        aria-label="Close toast"
+      >
         ×
       </button>
     </div>

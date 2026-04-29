@@ -18,7 +18,12 @@ interface QuizDetailProps {
 }
 
 export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
-  const { data: quiz, isPending, isError, error } = useQuizDetailQuery(quizId, initialQuiz);
+  const {
+    data: quiz,
+    isPending,
+    isError,
+    error,
+  } = useQuizDetailQuery(quizId, initialQuiz);
   const {
     answers,
     isChecked,
@@ -30,7 +35,11 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
   if (isPending && initialQuiz === undefined) {
     return (
       <Card>
-        <AppLoader compact title="Loading quiz details..." subtitle="Collecting questions" />
+        <AppLoader
+          compact
+          title="Loading quiz details..."
+          subtitle="Collecting questions"
+        />
       </Card>
     );
   }
@@ -58,26 +67,47 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
         <h1 id="quiz-detail-title" className={`pageTitle ${styles.quizTitle}`}>
           {quiz.title}
         </h1>
-        {quiz.description ? <p className="pageSubtitle">{quiz.description}</p> : null}
+        {quiz.description ? (
+          <p className="pageSubtitle">{quiz.description}</p>
+        ) : null}
 
-        <div className={styles.actionsRow} role="group" aria-label="Quiz actions">
+        <div
+          className={styles.actionsRow}
+          role="group"
+          aria-label="Quiz actions"
+        >
           <Button type="button" onClick={() => markQuizAsChecked(quizId)}>
             Check answers
           </Button>
-          <Button type="button" variant="secondary" onClick={() => resetQuizAttempt(quizId)}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => resetQuizAttempt(quizId)}
+          >
             Reset answers
           </Button>
           {isChecked ? (
-            <p className={styles.score} role="status" aria-live="polite" aria-atomic="true">
+            <p
+              className={styles.score}
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               Score: {correctAnswersCount + '/' + quiz.questions.length}
             </p>
           ) : (
-            <p className={styles.scoreHint}>Answer the questions and press Check answers.</p>
+            <p className={styles.scoreHint}>
+              Answer the questions and press Check answers.
+            </p>
           )}
         </div>
       </Card>
 
-      <div className={styles.questionsList} role="list" aria-label="Quiz questions">
+      <div
+        className={styles.questionsList}
+        role="list"
+        aria-label="Quiz questions"
+      >
         {quiz.questions.map((question, index) => (
           <QuizQuestionCard
             key={question.id}

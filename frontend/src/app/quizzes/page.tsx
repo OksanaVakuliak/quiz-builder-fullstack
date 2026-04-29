@@ -23,7 +23,9 @@ export default async function QuizzesPage() {
   return (
     <section>
       <h1 className="pageTitle">All Quizzes</h1>
-      <p className="pageSubtitle">Review created quizzes and remove outdated ones.</p>
+      <p className="pageSubtitle">
+        Review created quizzes and remove outdated ones.
+      </p>
       <div className={styles.sectionSpacing}>
         <QuizListClient initialQuizzes={initialQuizzes} />
       </div>

@@ -10,8 +10,8 @@ export default function NotFoundPage() {
         <p className={styles.code}>404</p>
         <h1 className="pageTitle">This quiz wandered off the map</h1>
         <p className="pageSubtitle">
-          The page does not exist or was moved to another route. Pick one of the actions below to
-          keep going.
+          The page does not exist or was moved to another route. Pick one of the
+          actions below to keep going.
         </p>
 
         <div className={styles.actions}>

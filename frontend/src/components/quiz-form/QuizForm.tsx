@@ -75,7 +75,9 @@ export function QuizForm() {
             rows={3}
             value={description}
             aria-invalid={hasDescriptionError}
-            aria-describedby={hasDescriptionError ? descriptionErrorId : undefined}
+            aria-describedby={
+              hasDescriptionError ? descriptionErrorId : undefined
+            }
             onChange={(event) => {
               setDescription(event.target.value);
             }}
@@ -121,7 +123,11 @@ export function QuizForm() {
           </fieldset>
         </div>
 
-        <div className={styles.questionsStack} role="list" aria-label="Quiz questions">
+        <div
+          className={styles.questionsStack}
+          role="list"
+          aria-label="Quiz questions"
+        >
           {questions.map((question, index) => (
             <QuestionEditor
               key={question.clientId || `question-${index}`}
@@ -143,7 +149,12 @@ export function QuizForm() {
       </Card>
 
       {hasSubmitError ? (
-        <p id={submitErrorId} className={styles.error} role="alert" aria-live="assertive">
+        <p
+          id={submitErrorId}
+          className={styles.error}
+          role="alert"
+          aria-live="assertive"
+        >
           {submitError}
         </p>
       ) : null}

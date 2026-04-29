@@ -1,4 +1,7 @@
-import { proxyToBackend, withProxyErrorHandling } from '@/services/api/backend.proxy';
+import {
+  proxyToBackend,
+  withProxyErrorHandling,
+} from '@/services/api/backend.proxy';
 
 export const dynamic = 'force-dynamic';
 

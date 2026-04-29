@@ -46,7 +46,11 @@ export default function RootLayout({
         </a>
         <QueryProvider>
           <AppHeader />
-          <main id="main-content" className="container pageContainer" tabIndex={-1}>
+          <main
+            id="main-content"
+            className="container pageContainer"
+            tabIndex={-1}
+          >
             {children}
           </main>
           <AppFooter />

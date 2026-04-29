@@ -17,8 +17,8 @@ export default function HomePage() {
     <section>
       <h1 className="pageTitle">Build structured quizzes in minutes</h1>
       <p className="pageSubtitle">
-        Create Boolean, Input, and Checkbox questions, then browse all quizzes or inspect each one
-        in read-only mode.
+        Create Boolean, Input, and Checkbox questions, then browse all quizzes
+        or inspect each one in read-only mode.
       </p>
       <div className="heroActions">
         <Button asChild variant="primary">
@@ -33,8 +33,8 @@ export default function HomePage() {
         <Card>
           <h2 className={styles.scopeTitle}>Assessment Scope</h2>
           <p className={styles.scopeText}>
-            Full-stack workflow with Express + Prisma on the backend and Next.js App Router on the
-            frontend.
+            Full-stack workflow with Express + Prisma on the backend and Next.js
+            App Router on the frontend.
           </p>
         </Card>
       </div>

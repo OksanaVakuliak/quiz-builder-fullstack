@@ -33,7 +33,11 @@ export function QuestionInputFields({
           aria-invalid={hasError}
           aria-describedby={hasError ? errorId : undefined}
           onChange={(event) => {
-            setValidatedFormValue(setValue, `questions.${index}.inputAnswer`, event.target.value);
+            setValidatedFormValue(
+              setValue,
+              `questions.${index}.inputAnswer`,
+              event.target.value,
+            );
           }}
           placeholder="Type the expected short answer"
         />

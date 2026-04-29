@@ -1,4 +1,5 @@
-const rawBackendApiBaseUrl = process.env.API_BASE_URL || 'http://localhost:4000/api';
+const rawBackendApiBaseUrl =
+  process.env.API_BASE_URL || 'http://localhost:4000/api';
 
 const backendApiBaseUrl = rawBackendApiBaseUrl.replace(/\/$/, '');
 const localhostHostPattern = /\/\/localhost(?::|\/)/i;
@@ -11,7 +12,9 @@ interface ProxyToBackendOptions {
   search?: string;
 }
 
-type AsyncRouteHandler<TArgs extends unknown[]> = (...args: TArgs) => Promise<Response>;
+type AsyncRouteHandler<TArgs extends unknown[]> = (
+  ...args: TArgs
+) => Promise<Response>;
 
 const toBackendUrl = (path: string, search?: string): string => {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
@@ -24,7 +27,10 @@ const toBackendUrl = (path: string, search?: string): string => {
   return `${baseUrl}${search}`;
 };
 
-const fetchWithLocalhostFallback = async (url: string, init: RequestInit): Promise<Response> => {
+const fetchWithLocalhostFallback = async (
+  url: string,
+  init: RequestInit,
+): Promise<Response> => {
   try {
     return await fetch(url, init);
   } catch (error) {
@@ -88,7 +94,8 @@ export const createProxyErrorResponse = (error?: unknown): Response => {
       ? undefined
       : {
           backendApiBaseUrl,
-          reason: error instanceof Error ? error.message : 'Unknown proxy error',
+          reason:
+            error instanceof Error ? error.message : 'Unknown proxy error',
         };
 
   return Response.json(
@@ -97,12 +104,12 @@ export const createProxyErrorResponse = (error?: unknown): Response => {
       message: 'Failed to reach backend API.',
       details,
     },
-    { status: 502 }
+    { status: 502 },
   );
 };
 
 export const withProxyErrorHandling = <TArgs extends unknown[]>(
-  handler: AsyncRouteHandler<TArgs>
+  handler: AsyncRouteHandler<TArgs>,
 ): AsyncRouteHandler<TArgs> => {
   return async (...args: TArgs) => {
     try {

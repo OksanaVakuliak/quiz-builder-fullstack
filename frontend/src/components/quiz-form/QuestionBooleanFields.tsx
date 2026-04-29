@@ -32,27 +32,41 @@ export function QuestionBooleanFields({
         aria-describedby={hasError ? errorId : undefined}
         aria-invalid={hasError}
       >
-        <label className={styles.radioOption} htmlFor={`question-${index}-boolean-true`}>
+        <label
+          className={styles.radioOption}
+          htmlFor={`question-${index}-boolean-true`}
+        >
           <input
             id={`question-${index}-boolean-true`}
             type="radio"
             name={`boolean-answer-${index}`}
             checked={question.booleanAnswer === true}
             onChange={() => {
-              setValidatedFormValue(setValue, `questions.${index}.booleanAnswer`, true);
+              setValidatedFormValue(
+                setValue,
+                `questions.${index}.booleanAnswer`,
+                true,
+              );
             }}
           />
           True
         </label>
 
-        <label className={styles.radioOption} htmlFor={`question-${index}-boolean-false`}>
+        <label
+          className={styles.radioOption}
+          htmlFor={`question-${index}-boolean-false`}
+        >
           <input
             id={`question-${index}-boolean-false`}
             type="radio"
             name={`boolean-answer-${index}`}
             checked={question.booleanAnswer === false}
             onChange={() => {
-              setValidatedFormValue(setValue, `questions.${index}.booleanAnswer`, false);
+              setValidatedFormValue(
+                setValue,
+                `questions.${index}.booleanAnswer`,
+                false,
+              );
             }}
           />
           False

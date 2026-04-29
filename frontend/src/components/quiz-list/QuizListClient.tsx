@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getErrorMessage } from '@/lib/error-message';
-import { useDeleteQuizMutation, useQuizzesQuery } from '@/services/api/quiz.query';
+import {
+  useDeleteQuizMutation,
+  useQuizzesQuery,
+} from '@/services/api/quiz.query';
 import { QuizSummary } from '@/types/quiz.types';
 import { AppLoader } from '@/components/ui/AppLoader';
 import { Button } from '@/components/ui/Button';
@@ -23,10 +26,17 @@ interface ToastState {
 
 export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
   const [deletingQuizId, setDeletingQuizId] = useState<number | null>(null);
-  const [mutationErrorMessage, setMutationErrorMessage] = useState<string | null>(null);
+  const [mutationErrorMessage, setMutationErrorMessage] = useState<
+    string | null
+  >(null);
   const [toast, setToast] = useState<ToastState | null>(null);
 
-  const { data: quizzes = [], isPending, isError, error } = useQuizzesQuery(initialQuizzes);
+  const {
+    data: quizzes = [],
+    isPending,
+    isError,
+    error,
+  } = useQuizzesQuery(initialQuizzes);
   const deleteQuizMutation = useDeleteQuizMutation();
 
   useEffect(() => {
@@ -52,7 +62,10 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
       setToast({ message: 'Quiz deleted.', variant: 'success' });
     } catch (deleteError) {
       console.error(deleteError);
-      const nextErrorMessage = getErrorMessage(deleteError, 'Failed to delete quiz. Try again.');
+      const nextErrorMessage = getErrorMessage(
+        deleteError,
+        'Failed to delete quiz. Try again.',
+      );
       setMutationErrorMessage(nextErrorMessage);
       setToast({ message: nextErrorMessage, variant: 'error' });
     } finally {
@@ -63,14 +76,21 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
   if (isPending && initialQuizzes === undefined) {
     return (
       <Card>
-        <AppLoader compact title="Loading quizzes..." subtitle="Fetching latest items" />
+        <AppLoader
+          compact
+          title="Loading quizzes..."
+          subtitle="Fetching latest items"
+        />
       </Card>
     );
   }
 
   const loadErrorMessage =
     isError && quizzes.length === 0
-      ? getErrorMessage(error, 'Unable to load quizzes. Check backend connection.')
+      ? getErrorMessage(
+          error,
+          'Unable to load quizzes. Check backend connection.',
+        )
       : null;
 
   const errorMessage = mutationErrorMessage || loadErrorMessage;
@@ -104,7 +124,11 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
       )}
 
       {toast ? (
-        <Toast message={toast.message} variant={toast.variant} onClose={() => setToast(null)} />
+        <Toast
+          message={toast.message}
+          variant={toast.variant}
+          onClose={() => setToast(null)}
+        />
       ) : null}
     </div>
   );

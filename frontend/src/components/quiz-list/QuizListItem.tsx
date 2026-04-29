@@ -9,7 +9,11 @@ interface QuizListItemProps {
   isDeleting: boolean;
 }
 
-export function QuizListItem({ quiz, onDelete, isDeleting }: QuizListItemProps) {
+export function QuizListItem({
+  quiz,
+  onDelete,
+  isDeleting,
+}: QuizListItemProps) {
   return (
     <Card
       className={`${styles.row} ${isDeleting ? styles.rowDeleting : ''}`}

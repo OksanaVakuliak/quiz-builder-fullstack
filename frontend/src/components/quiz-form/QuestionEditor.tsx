@@ -1,6 +1,10 @@
 import { FieldErrors, UseFormSetValue } from 'react-hook-form';
 import { createDefaultQuestion } from '@/lib/mappers';
-import { CreateQuizFormValues, QuestionForm, QuestionType } from '@/types/quiz.types';
+import {
+  CreateQuizFormValues,
+  QuestionForm,
+  QuestionType,
+} from '@/types/quiz.types';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { setValidatedFormValue } from './form-value.helpers';
@@ -73,7 +77,11 @@ export function QuestionEditor({
             aria-invalid={hasPromptError}
             aria-describedby={hasPromptError ? promptErrorId : undefined}
             onChange={(event) => {
-              setValidatedFormValue(setValue, `questions.${index}.prompt`, event.target.value);
+              setValidatedFormValue(
+                setValue,
+                `questions.${index}.prompt`,
+                event.target.value,
+              );
             }}
             placeholder="Write your question prompt"
           />
@@ -112,7 +120,7 @@ export function QuestionEditor({
                 setValidatedFormValue(
                   setValue,
                   `questions.${index}.required`,
-                  event.target.checked
+                  event.target.checked,
                 );
               }}
             />
@@ -121,7 +129,12 @@ export function QuestionEditor({
         </div>
       </div>
 
-      <QuestionTypeFields index={index} question={question} setValue={setValue} errors={errors} />
+      <QuestionTypeFields
+        index={index}
+        question={question}
+        setValue={setValue}
+        errors={errors}
+      />
     </Card>
   );
 }

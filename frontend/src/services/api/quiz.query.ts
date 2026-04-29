@@ -35,7 +35,7 @@ export const useQuizzesQuery = (initialData?: QuizSummary[]) => {
       queryKey: quizQueryKeys.all,
       queryFn: quizApi.getAll,
       initialData,
-    })
+    }),
   );
 };
 
@@ -46,7 +46,7 @@ export const useQuizDetailQuery = (quizId: number, initialData?: Quiz) => {
       queryFn: () => quizApi.getById(quizId),
       initialData,
       enabledWhenNoInitialData: quizId > 0,
-    })
+    }),
   );
 };
 
@@ -58,21 +58,29 @@ export const useDeleteQuizMutation = () => {
     onMutate: async (deletedQuizId) => {
       await queryClient.cancelQueries({ queryKey: quizQueryKeys.all });
 
-      const previousQuizzes = queryClient.getQueryData<QuizSummary[]>(quizQueryKeys.all);
+      const previousQuizzes = queryClient.getQueryData<QuizSummary[]>(
+        quizQueryKeys.all,
+      );
 
-      queryClient.setQueryData<QuizSummary[]>(quizQueryKeys.all, (currentQuizzes) => {
-        if (!currentQuizzes) {
-          return currentQuizzes;
-        }
+      queryClient.setQueryData<QuizSummary[]>(
+        quizQueryKeys.all,
+        (currentQuizzes) => {
+          if (!currentQuizzes) {
+            return currentQuizzes;
+          }
 
-        return currentQuizzes.filter((quiz) => quiz.id !== deletedQuizId);
-      });
+          return currentQuizzes.filter((quiz) => quiz.id !== deletedQuizId);
+        },
+      );
 
       return { previousQuizzes };
     },
     onError: (_error, _deletedQuizId, context) => {
       if (context?.previousQuizzes) {
-        queryClient.setQueryData<QuizSummary[]>(quizQueryKeys.all, context.previousQuizzes);
+        queryClient.setQueryData<QuizSummary[]>(
+          quizQueryKeys.all,
+          context.previousQuizzes,
+        );
       }
     },
     onSuccess: (_result, deletedQuizId) => {
@@ -95,16 +103,24 @@ export const useCreateQuizMutation = () => {
     onSuccess: (createdQuiz) => {
       const createdSummary = mapQuizToSummary(createdQuiz);
 
-      queryClient.setQueryData<Quiz>(quizQueryKeys.detail(createdQuiz.id), createdQuiz);
+      queryClient.setQueryData<Quiz>(
+        quizQueryKeys.detail(createdQuiz.id),
+        createdQuiz,
+      );
 
-      queryClient.setQueryData<QuizSummary[]>(quizQueryKeys.all, (currentQuizzes) => {
-        if (!currentQuizzes || currentQuizzes.length === 0) {
-          return [createdSummary];
-        }
+      queryClient.setQueryData<QuizSummary[]>(
+        quizQueryKeys.all,
+        (currentQuizzes) => {
+          if (!currentQuizzes || currentQuizzes.length === 0) {
+            return [createdSummary];
+          }
 
-        const withoutCreated = currentQuizzes.filter((quiz) => quiz.id !== createdSummary.id);
-        return [createdSummary, ...withoutCreated];
-      });
+          const withoutCreated = currentQuizzes.filter(
+            (quiz) => quiz.id !== createdSummary.id,
+          );
+          return [createdSummary, ...withoutCreated];
+        },
+      );
     },
   });
 };

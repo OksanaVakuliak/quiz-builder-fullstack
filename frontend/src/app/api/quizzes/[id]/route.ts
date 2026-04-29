@@ -1,4 +1,7 @@
-import { proxyToBackend, withProxyErrorHandling } from '@/services/api/backend.proxy';
+import {
+  proxyToBackend,
+  withProxyErrorHandling,
+} from '@/services/api/backend.proxy';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,14 +12,16 @@ interface QuizByIdRouteContext {
 }
 
 const createQuizByIdHandler = (method: 'GET' | 'DELETE') => {
-  return withProxyErrorHandling(async (_request: Request, { params }: QuizByIdRouteContext) => {
-    const { id } = await params;
+  return withProxyErrorHandling(
+    async (_request: Request, { params }: QuizByIdRouteContext) => {
+      const { id } = await params;
 
-    return proxyToBackend({
-      path: `/quizzes/${id}`,
-      method,
-    });
-  });
+      return proxyToBackend({
+        path: `/quizzes/${id}`,
+        method,
+      });
+    },
+  );
 };
 
 export const GET = createQuizByIdHandler('GET');

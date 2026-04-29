@@ -18,7 +18,9 @@ const normalizeSiteUrl = (rawValue: string | undefined): string => {
   }
 
   const trimmed = rawValue.trim();
-  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  const withProtocol = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`;
 
   return withProtocol.replace(/\/+$/, '');
 };

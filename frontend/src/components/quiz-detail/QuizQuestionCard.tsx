@@ -16,7 +16,10 @@ interface QuizQuestionCardProps {
   isChecked: boolean;
   answers: QuizAnswersSnapshot;
   evaluation?: QuestionEvaluation;
-  actions: Pick<QuizAttemptActions, 'setBooleanAnswer' | 'setInputAnswer' | 'toggleCheckboxOption'>;
+  actions: Pick<
+    QuizAttemptActions,
+    'setBooleanAnswer' | 'setInputAnswer' | 'toggleCheckboxOption'
+  >;
 }
 
 export function QuizQuestionCard({
@@ -34,7 +37,11 @@ export function QuizQuestionCard({
   const resultId = `quiz-${quizId}-question-${question.id}-result`;
 
   return (
-    <Card className={styles.questionCard} role="listitem" aria-labelledby={questionTitleId}>
+    <Card
+      className={styles.questionCard}
+      role="listitem"
+      aria-labelledby={questionTitleId}
+    >
       <p className={styles.questionMeta}>
         Q{index + 1} • {question.type}
       </p>
@@ -55,7 +62,9 @@ export function QuizQuestionCard({
               name={`boolean-${question.id}`}
               checked={answers.booleanAnswers[questionKey] === true}
               aria-describedby={isChecked ? resultId : undefined}
-              onChange={() => actions.setBooleanAnswer(quizId, question.id, true)}
+              onChange={() =>
+                actions.setBooleanAnswer(quizId, question.id, true)
+              }
             />
             <span>True</span>
           </label>
@@ -69,7 +78,9 @@ export function QuizQuestionCard({
               name={`boolean-${question.id}`}
               checked={answers.booleanAnswers[questionKey] === false}
               aria-describedby={isChecked ? resultId : undefined}
-              onChange={() => actions.setBooleanAnswer(quizId, question.id, false)}
+              onChange={() =>
+                actions.setBooleanAnswer(quizId, question.id, false)
+              }
             />
             <span>False</span>
           </label>
@@ -78,7 +89,10 @@ export function QuizQuestionCard({
 
       {question.type === 'INPUT' ? (
         <>
-          <label htmlFor={`quiz-${quizId}-question-${question.id}-input`} className="srOnly">
+          <label
+            htmlFor={`quiz-${quizId}-question-${question.id}-input`}
+            className="srOnly"
+          >
             Type your answer
           </label>
           <input
@@ -87,7 +101,9 @@ export function QuizQuestionCard({
             className={styles.inputControl}
             value={answers.inputAnswers[questionKey] ?? ''}
             aria-describedby={isChecked ? resultId : undefined}
-            onChange={(event) => actions.setInputAnswer(quizId, question.id, event.target.value)}
+            onChange={(event) =>
+              actions.setInputAnswer(quizId, question.id, event.target.value)
+            }
             placeholder="Type your answer"
           />
         </>
@@ -117,7 +133,9 @@ export function QuizQuestionCard({
                   type="checkbox"
                   checked={selectedOptionIds.includes(option.id)}
                   aria-describedby={isChecked ? resultId : undefined}
-                  onChange={() => actions.toggleCheckboxOption(quizId, question.id, option.id)}
+                  onChange={() =>
+                    actions.toggleCheckboxOption(quizId, question.id, option.id)
+                  }
                 />
                 <span>{option.label}</span>
               </label>
@@ -132,7 +150,11 @@ export function QuizQuestionCard({
       {isChecked ? (
         <p
           id={resultId}
-          className={evaluation?.isCorrect ? styles.resultCorrect : styles.resultIncorrect}
+          className={
+            evaluation?.isCorrect
+              ? styles.resultCorrect
+              : styles.resultIncorrect
+          }
           role="status"
           aria-live="polite"
         >

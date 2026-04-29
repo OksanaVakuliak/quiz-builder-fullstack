@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
-import { createDefaultQuestion, mapFormToPayload, normalizeQuestionOrders } from '@/lib/mappers';
+import {
+  createDefaultQuestion,
+  mapFormToPayload,
+  normalizeQuestionOrders,
+} from '@/lib/mappers';
 import { createQuizSchema } from '@/schemas/quiz-form.schema';
 import { useCreateQuizMutation } from '@/services/api/quiz.query';
 import { CreateQuizFormValues, QuestionType } from '@/types/quiz.types';
@@ -37,17 +41,30 @@ export const useQuizFormController = () => {
   const watchedQuestions = useWatch({ control, name: 'questions' });
   const questions = watchedQuestions || [];
 
-  const updateQuestions = (nextQuestions: CreateQuizFormValues['questions']) => {
-    setValidatedFormValue(setValue, 'questions', normalizeQuestionOrders(nextQuestions));
+  const updateQuestions = (
+    nextQuestions: CreateQuizFormValues['questions'],
+  ) => {
+    setValidatedFormValue(
+      setValue,
+      'questions',
+      normalizeQuestionOrders(nextQuestions),
+    );
   };
 
   const addQuestion = (type: QuestionType) => {
-    updateQuestions([...questions, createDefaultQuestion(type, questions.length)]);
+    updateQuestions([
+      ...questions,
+      createDefaultQuestion(type, questions.length),
+    ]);
   };
 
   const removeQuestion = (index: number) => {
-    const filtered = questions.filter((_, questionIndex) => questionIndex !== index);
-    updateQuestions(filtered.length > 0 ? filtered : [createDefaultQuestion('BOOLEAN', 0)]);
+    const filtered = questions.filter(
+      (_, questionIndex) => questionIndex !== index,
+    );
+    updateQuestions(
+      filtered.length > 0 ? filtered : [createDefaultQuestion('BOOLEAN', 0)],
+    );
   };
 
   const submit = handleSubmit(async (formValues) => {
@@ -60,7 +77,9 @@ export const useQuizFormController = () => {
       router.push(`/quizzes/${createdQuiz.id}`);
     } catch (error) {
       console.error(error);
-      setSubmitError('Could not create quiz. Please verify API server is running.');
+      setSubmitError(
+        'Could not create quiz. Please verify API server is running.',
+      );
     }
   });
 
@@ -76,7 +95,9 @@ export const useQuizFormController = () => {
     submit,
     addQuestion,
     removeQuestion,
-    setTitle: (value: string) => setValidatedFormValue(setValue, 'title', value),
-    setDescription: (value: string) => setValidatedFormValue(setValue, 'description', value),
+    setTitle: (value: string) =>
+      setValidatedFormValue(setValue, 'title', value),
+    setDescription: (value: string) =>
+      setValidatedFormValue(setValue, 'description', value),
   };
 };
