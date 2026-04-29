@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import { QueryProvider } from '@/components/providers/QueryProvider';
+import { appMetadataBase, createPageMetadata } from '@/lib/metadata';
 import './globals.css';
 
 const bodyFont = Manrope({
@@ -14,9 +15,21 @@ const headingFont = Space_Grotesk({
   variable: '--font-heading',
 });
 
-export const metadata: Metadata = {
+const defaultPageMetadata = createPageMetadata({
   title: 'Quiz Builder',
   description: 'Create and manage custom quizzes with multiple question types.',
+  path: '/',
+});
+
+export const metadata: Metadata = {
+  metadataBase: appMetadataBase,
+  title: {
+    default: 'Quiz Builder',
+    template: '%s | Quiz Builder',
+  },
+  description: defaultPageMetadata.description,
+  alternates: defaultPageMetadata.alternates,
+  openGraph: defaultPageMetadata.openGraph,
 };
 
 export default function RootLayout({

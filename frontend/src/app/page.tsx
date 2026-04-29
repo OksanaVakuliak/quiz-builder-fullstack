@@ -1,7 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { createPageMetadata } from '@/lib/metadata';
 import styles from './page.module.css';
+
+export const metadata: Metadata = createPageMetadata({
+  title: 'Home',
+  description:
+    'Build structured quizzes with Boolean, Input, and Checkbox questions in a few minutes.',
+  path: '/',
+});
 
 export default function HomePage() {
   return (
