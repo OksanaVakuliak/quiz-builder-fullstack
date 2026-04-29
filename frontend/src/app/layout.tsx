@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Manrope, Space_Grotesk } from 'next/font/google';
+import { AppFooter } from '@/components/layout/AppFooter';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { appMetadataBase, createPageMetadata } from '@/lib/metadata';
 import './globals.css';
@@ -40,19 +41,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${bodyFont.variable} ${headingFont.variable}`}>
+        <a href="#main-content" className="skipLink">
+          Skip to main content
+        </a>
         <QueryProvider>
-          <header className="appHeader">
-            <div className="container headerContent">
-              <Link href="/" className="brand">
-                Quiz Builder
-              </Link>
-              <nav className="navLinks">
-                <Link href="/create">Create Quiz</Link>
-                <Link href="/quizzes">All Quizzes</Link>
-              </nav>
-            </div>
-          </header>
-          <main className="container pageContainer">{children}</main>
+          <AppHeader />
+          <main id="main-content" className="container pageContainer" tabIndex={-1}>
+            {children}
+          </main>
+          <AppFooter />
         </QueryProvider>
       </body>
     </html>

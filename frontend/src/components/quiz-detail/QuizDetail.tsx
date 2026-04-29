@@ -42,7 +42,9 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
   if (!quiz) {
     return (
       <Card>
-        <p className={styles.error}>{errorMessage}</p>
+        <p className={styles.error} role="alert">
+          {errorMessage}
+        </p>
         <Button asChild variant="secondary">
           <Link href="/quizzes">Back to quiz list</Link>
         </Button>
@@ -51,12 +53,14 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <section className={styles.wrapper} aria-labelledby="quiz-detail-title">
       <Card>
-        <h1 className={`pageTitle ${styles.quizTitle}`}>{quiz.title}</h1>
+        <h1 id="quiz-detail-title" className={`pageTitle ${styles.quizTitle}`}>
+          {quiz.title}
+        </h1>
         {quiz.description ? <p className="pageSubtitle">{quiz.description}</p> : null}
 
-        <div className={styles.actionsRow}>
+        <div className={styles.actionsRow} role="group" aria-label="Quiz actions">
           <Button type="button" onClick={() => markQuizAsChecked(quizId)}>
             Check answers
           </Button>
@@ -64,7 +68,7 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
             Reset answers
           </Button>
           {isChecked ? (
-            <p className={styles.score}>
+            <p className={styles.score} role="status" aria-live="polite" aria-atomic="true">
               Score: {correctAnswersCount + '/' + quiz.questions.length}
             </p>
           ) : (
@@ -73,7 +77,7 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
         </div>
       </Card>
 
-      <div className={styles.questionsList}>
+      <div className={styles.questionsList} role="list" aria-label="Quiz questions">
         {quiz.questions.map((question, index) => (
           <QuizQuestionCard
             key={question.id}
@@ -87,6 +91,6 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

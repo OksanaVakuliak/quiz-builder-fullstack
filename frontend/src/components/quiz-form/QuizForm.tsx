@@ -23,8 +23,23 @@ export function QuizForm() {
     setDescription,
   } = useQuizFormController();
 
+  const titleErrorId = 'quiz-title-error';
+  const descriptionErrorId = 'quiz-description-error';
+  const questionsErrorId = 'quiz-questions-error';
+  const submitErrorId = 'quiz-submit-error';
+
+  const hasTitleError = Boolean(errors.title?.message);
+  const hasDescriptionError = Boolean(errors.description?.message);
+  const hasQuestionsError = Boolean(errors.questions?.message);
+  const hasSubmitError = Boolean(submitError);
+
   return (
-    <form className={styles.form} onSubmit={submit}>
+    <form
+      className={styles.form}
+      onSubmit={submit}
+      aria-busy={isSubmitting || isCreatePending}
+      aria-describedby={hasSubmitError ? submitErrorId : undefined}
+    >
       <Card className={styles.sectionCard}>
         <div className={styles.fieldGroup}>
           <label htmlFor="title" className={styles.label}>
@@ -34,12 +49,20 @@ export function QuizForm() {
             id="title"
             className={styles.input}
             value={title}
+            required
+            aria-required="true"
+            aria-invalid={hasTitleError}
+            aria-describedby={hasTitleError ? titleErrorId : undefined}
             onChange={(event) => {
               setTitle(event.target.value);
             }}
             placeholder="Frontend Knowledge Check"
           />
-          {errors.title?.message ? <p className={styles.error}>{errors.title.message}</p> : null}
+          {hasTitleError ? (
+            <p id={titleErrorId} className={styles.error} role="alert">
+              {errors.title?.message}
+            </p>
+          ) : null}
         </div>
 
         <div className={styles.fieldGroup}>
@@ -51,13 +74,17 @@ export function QuizForm() {
             className={styles.textarea}
             rows={3}
             value={description}
+            aria-invalid={hasDescriptionError}
+            aria-describedby={hasDescriptionError ? descriptionErrorId : undefined}
             onChange={(event) => {
               setDescription(event.target.value);
             }}
             placeholder="A short intro for quiz reviewers"
           />
-          {errors.description?.message ? (
-            <p className={styles.error}>{errors.description.message}</p>
+          {hasDescriptionError ? (
+            <p id={descriptionErrorId} className={styles.error} role="alert">
+              {errors.description?.message}
+            </p>
           ) : null}
         </div>
       </Card>
@@ -65,20 +92,36 @@ export function QuizForm() {
       <Card className={styles.sectionCard}>
         <div className={styles.sectionHead}>
           <h2 className={styles.sectionTitle}>Questions</h2>
-          <div className={styles.questionButtons}>
-            <Button type="button" variant="secondary" onClick={() => addQuestion('BOOLEAN')}>
+          <fieldset className={styles.questionButtons}>
+            <legend className="srOnly">Add a question type</legend>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => addQuestion('BOOLEAN')}
+              aria-label="Add Boolean question"
+            >
               Add Boolean
             </Button>
-            <Button type="button" variant="secondary" onClick={() => addQuestion('INPUT')}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => addQuestion('INPUT')}
+              aria-label="Add Input question"
+            >
               Add Input
             </Button>
-            <Button type="button" variant="secondary" onClick={() => addQuestion('CHECKBOX')}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => addQuestion('CHECKBOX')}
+              aria-label="Add Checkbox question"
+            >
               Add Checkbox
             </Button>
-          </div>
+          </fieldset>
         </div>
 
-        <div className={styles.questionsStack}>
+        <div className={styles.questionsStack} role="list" aria-label="Quiz questions">
           {questions.map((question, index) => (
             <QuestionEditor
               key={question.clientId || `question-${index}`}
@@ -92,18 +135,28 @@ export function QuizForm() {
           ))}
         </div>
 
-        {errors.questions?.message ? (
-          <p className={styles.error}>{errors.questions.message}</p>
+        {hasQuestionsError ? (
+          <p id={questionsErrorId} className={styles.error} role="alert">
+            {errors.questions?.message}
+          </p>
         ) : null}
       </Card>
 
-      {submitError ? <p className={styles.error}>{submitError}</p> : null}
+      {hasSubmitError ? (
+        <p id={submitErrorId} className={styles.error} role="alert" aria-live="assertive">
+          {submitError}
+        </p>
+      ) : null}
 
       <div className={styles.submitRow}>
         <Button type="submit" disabled={isSubmitting || isCreatePending}>
           {isSubmitting || isCreatePending ? 'Creating quiz...' : 'Create quiz'}
         </Button>
       </div>
+
+      <span className="srOnly" role="status" aria-live="polite">
+        {isSubmitting || isCreatePending ? 'Quiz creation in progress' : ''}
+      </span>
     </form>
   );
 }

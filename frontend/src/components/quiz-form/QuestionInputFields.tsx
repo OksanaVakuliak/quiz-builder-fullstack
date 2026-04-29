@@ -16,20 +16,33 @@ export function QuestionInputFields({
   setValue,
   errorMessage,
 }: QuestionInputFieldsProps) {
+  const inputId = `question-${index}-input-answer`;
+  const errorId = `question-${index}-input-answer-error`;
+  const hasError = Boolean(errorMessage);
+
   return (
     <div className={styles.typeBlock}>
-      <label className={styles.field}>
-        <span className={styles.label}>Expected answer</span>
+      <div className={styles.field}>
+        <label htmlFor={inputId} className={styles.label}>
+          Expected answer
+        </label>
         <input
+          id={inputId}
           className={styles.input}
           value={question.inputAnswer || ''}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? errorId : undefined}
           onChange={(event) => {
             setValidatedFormValue(setValue, `questions.${index}.inputAnswer`, event.target.value);
           }}
           placeholder="Type the expected short answer"
         />
-      </label>
-      {errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
+      </div>
+      {hasError ? (
+        <p id={errorId} className={styles.error} role="alert">
+          {errorMessage}
+        </p>
+      ) : null}
     </div>
   );
 }

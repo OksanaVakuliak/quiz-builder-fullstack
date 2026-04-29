@@ -53,6 +53,10 @@
 .choiceGroup {
   display: grid;
   gap: 0.45rem;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
 }
 
 .choiceItem {
@@ -70,6 +74,12 @@
   font: inherit;
   color: var(--text-main);
   background-color: var(--bg-surface);
+}
+
+.inputControl:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring-accent);
 }
 
 .optionList {

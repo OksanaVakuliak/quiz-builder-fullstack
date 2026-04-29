@@ -41,9 +41,10 @@
 
 .sectionHead {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.8rem;
 }
 
 .sectionTitle {
@@ -55,6 +56,10 @@
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
 }
 
 .questionsStack {
@@ -70,19 +75,26 @@
 
 .submitRow {
   display: flex;
-  justify-content: flex-end;
+  justify-content: stretch;
 }
 
-@media (max-width: 700px) {
+.submitRow button {
+  width: 100%;
+}
+
+@media (min-width: 701px) {
   .sectionHead {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
   }
 
   .submitRow {
-    justify-content: stretch;
+    justify-content: flex-end;
   }
 
   .submitRow button {
-    width: 100%;
+    width: auto;
   }
 }

@@ -4,7 +4,7 @@
   z-index: 120;
   display: flex;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 0.8rem;
   background: var(--overlay-modal);
   backdrop-filter: blur(2px);
   overflow-y: auto;
@@ -13,7 +13,7 @@
 .dialog {
   position: relative;
   width: min(980px, 100%);
-  max-height: calc(100vh - 3rem);
+  max-height: calc(100vh - 1.6rem);
   margin: auto 0;
   background: var(--bg-main);
   border: 1px solid var(--border);
@@ -43,20 +43,25 @@
   color: var(--accent-strong);
 }
 
-.content {
-  padding: 1rem;
+.closeButton:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-accent);
 }
 
-@media (max-width: 700px) {
+.content {
+  padding: 0.8rem;
+}
+
+@media (min-width: 701px) {
   .backdrop {
-    padding: 0.8rem;
+    padding: 1.5rem;
   }
 
   .dialog {
-    max-height: calc(100vh - 1.6rem);
+    max-height: calc(100vh - 3rem);
   }
 
   .content {
-    padding: 0.8rem;
+    padding: 1rem;
   }
 }

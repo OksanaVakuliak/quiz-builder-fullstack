@@ -17,6 +17,12 @@
 .contentLink {
   display: block;
   flex: 1;
+  border-radius: 10px;
+}
+
+.contentLink:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-accent);
 }
 
 .title {
@@ -52,6 +58,11 @@
   background-color: var(--danger-soft-bg-hover);
   border-color: var(--danger-soft-border-strong);
   transform: scale(1.03);
+}
+
+.deleteButton:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-accent);
 }
 
 .deleteButton:disabled {

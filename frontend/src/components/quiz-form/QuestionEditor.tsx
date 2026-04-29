@@ -25,6 +25,12 @@ export function QuestionEditor({
   canRemove,
 }: QuestionEditorProps) {
   const questionErrors = errors.questions?.[index];
+  const titleId = `question-${index}-title`;
+  const promptId = `question-${index}-prompt`;
+  const promptErrorId = `question-${index}-prompt-error`;
+  const typeId = `question-${index}-type`;
+  const requiredId = `question-${index}-required`;
+  const hasPromptError = Boolean(questionErrors?.prompt?.message);
 
   const handleTypeChange = (nextType: QuestionType) => {
     const template = createDefaultQuestion(nextType, question.order);
@@ -38,35 +44,53 @@ export function QuestionEditor({
   };
 
   return (
-    <Card className={styles.wrapper}>
+    <Card className={styles.wrapper} role="listitem" aria-labelledby={titleId}>
       <div className={styles.headerRow}>
-        <h3 className={styles.title}>Question {index + 1}</h3>
-        <Button type="button" variant="danger" onClick={onRemove} disabled={!canRemove}>
+        <h3 id={titleId} className={styles.title}>
+          Question {index + 1}
+        </h3>
+        <Button
+          type="button"
+          variant="danger"
+          onClick={onRemove}
+          disabled={!canRemove}
+          aria-label={`Remove question ${index + 1}`}
+        >
           Remove
         </Button>
       </div>
 
       <div className={styles.grid}>
-        <label className={styles.field}>
-          <span className={styles.label}>Prompt</span>
+        <div className={styles.field}>
+          <label htmlFor={promptId} className={styles.label}>
+            Prompt
+          </label>
           <textarea
+            id={promptId}
             className={styles.textarea}
             rows={3}
             value={question.prompt}
+            aria-invalid={hasPromptError}
+            aria-describedby={hasPromptError ? promptErrorId : undefined}
             onChange={(event) => {
               setValidatedFormValue(setValue, `questions.${index}.prompt`, event.target.value);
             }}
             placeholder="Write your question prompt"
           />
-          {questionErrors?.prompt?.message ? (
-            <span className={styles.error}>{questionErrors.prompt.message}</span>
+          {hasPromptError ? (
+            <span id={promptErrorId} className={styles.error} role="alert">
+              {questionErrors?.prompt?.message}
+            </span>
           ) : null}
-        </label>
+        </div>
 
         <div className={styles.inlineFields}>
-          <label className={styles.field}>
-            <span className={styles.label}>Question type</span>
+          <div className={styles.field}>
+            <label htmlFor={typeId} className={styles.label}>
+              Question type
+            </label>
             <select
+              id={typeId}
               className={styles.select}
               value={question.type}
               onChange={(event) => {
@@ -77,10 +101,11 @@ export function QuestionEditor({
               <option value="INPUT">Input</option>
               <option value="CHECKBOX">Checkbox</option>
             </select>
-          </label>
+          </div>
 
-          <label className={styles.requiredToggle}>
+          <label className={styles.requiredToggle} htmlFor={requiredId}>
             <input
+              id={requiredId}
               type="checkbox"
               checked={question.required}
               onChange={(event) => {

@@ -16,12 +16,25 @@ export function QuestionBooleanFields({
   setValue,
   errorMessage,
 }: QuestionBooleanFieldsProps) {
+  const groupLabelId = `question-${index}-boolean-label`;
+  const errorId = `question-${index}-boolean-error`;
+  const hasError = Boolean(errorMessage);
+
   return (
     <div className={styles.typeBlock}>
-      <p className={styles.subLabel}>Correct answer</p>
-      <div className={styles.radioRow}>
-        <label className={styles.radioOption}>
+      <p id={groupLabelId} className={styles.subLabel}>
+        Correct answer
+      </p>
+      <div
+        className={styles.radioRow}
+        role="radiogroup"
+        aria-labelledby={groupLabelId}
+        aria-describedby={hasError ? errorId : undefined}
+        aria-invalid={hasError}
+      >
+        <label className={styles.radioOption} htmlFor={`question-${index}-boolean-true`}>
           <input
+            id={`question-${index}-boolean-true`}
             type="radio"
             name={`boolean-answer-${index}`}
             checked={question.booleanAnswer === true}
@@ -32,8 +45,9 @@ export function QuestionBooleanFields({
           True
         </label>
 
-        <label className={styles.radioOption}>
+        <label className={styles.radioOption} htmlFor={`question-${index}-boolean-false`}>
           <input
+            id={`question-${index}-boolean-false`}
             type="radio"
             name={`boolean-answer-${index}`}
             checked={question.booleanAnswer === false}
@@ -44,7 +58,11 @@ export function QuestionBooleanFields({
           False
         </label>
       </div>
-      {errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
+      {hasError ? (
+        <p id={errorId} className={styles.error} role="alert">
+          {errorMessage}
+        </p>
+      ) : null}
     </div>
   );
 }

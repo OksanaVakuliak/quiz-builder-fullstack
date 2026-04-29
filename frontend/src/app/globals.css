@@ -52,7 +52,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
+  min-height: 100vh;
   background:
     radial-gradient(circle at top right, rgba(0, 127, 115, 0.14), transparent 38%),
     linear-gradient(180deg, #f8fafc 0%, var(--bg-main) 100%);
@@ -60,9 +60,51 @@ body {
   font-family: var(--font-body), sans-serif;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-accent);
+}
+
+.skipLink {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  transform: translateY(-140%);
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: var(--text-main);
+  color: var(--text-inverse);
+  z-index: 100;
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0.45rem);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .container {
@@ -83,7 +125,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 72px;
+  min-height: 64px;
 }
 
 .brand {
@@ -95,11 +137,12 @@ a {
 
 .navLinks {
   display: flex;
-  gap: 1rem;
+  gap: 0.4rem;
 }
 
 .navLinks a {
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.92rem;
   border-radius: 999px;
   transition:
     background-color var(--transition-fast),
@@ -111,8 +154,29 @@ a {
   color: var(--accent-strong);
 }
 
+.appFooter {
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.appFooterContent {
+  min-height: 54px;
+  padding: 0.55rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.appFooterCopy {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
 .pageContainer {
-  padding: 2rem 0 3rem;
+  flex: 1 0 auto;
+  padding: 1.25rem 0 2rem;
 }
 
 .pageTitle {
@@ -135,18 +199,27 @@ a {
   flex-wrap: wrap;
 }
 
-@media (max-width: 700px) {
+@media (min-width: 701px) {
   .headerContent {
-    min-height: 64px;
+    min-height: 72px;
   }
 
   .navLinks {
-    gap: 0.4rem;
+    gap: 1rem;
   }
 
   .navLinks a {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.92rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+  }
+
+  .appFooterContent {
+    min-height: 60px;
+    padding: 0;
+  }
+
+  .pageContainer {
+    padding: 2rem 0 3rem;
   }
 }
 

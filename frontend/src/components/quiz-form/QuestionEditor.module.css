@@ -67,7 +67,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  margin-top: 1.55rem;
+  margin-top: 0;
   font-size: 0.93rem;
 }
 
@@ -106,7 +106,7 @@
 
 .optionRow {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: 1fr;
   gap: 0.5rem;
   align-items: center;
 }
@@ -124,12 +124,12 @@
   font-size: 0.85rem;
 }
 
-@media (max-width: 700px) {
+@media (min-width: 701px) {
   .requiredToggle {
-    margin-top: 0;
+    margin-top: 1.55rem;
   }
 
   .optionRow {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 }

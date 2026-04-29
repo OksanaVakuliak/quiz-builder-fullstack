@@ -77,7 +77,11 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
 
   return (
     <div className={styles.listWrapper}>
-      {errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
+      {errorMessage ? (
+        <p className={styles.error} role="alert" aria-live="assertive">
+          {errorMessage}
+        </p>
+      ) : null}
 
       {quizzes.length === 0 ? (
         <Card>
@@ -87,7 +91,7 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
           </Button>
         </Card>
       ) : (
-        <div className={styles.list}>
+        <div className={styles.list} role="list" aria-label="Available quizzes">
           {quizzes.map((quiz) => (
             <QuizListItem
               key={quiz.id}

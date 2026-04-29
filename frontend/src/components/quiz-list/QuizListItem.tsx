@@ -11,8 +11,17 @@ interface QuizListItemProps {
 
 export function QuizListItem({ quiz, onDelete, isDeleting }: QuizListItemProps) {
   return (
-    <Card className={`${styles.row} ${isDeleting ? styles.rowDeleting : ''}`}>
-      <Link href={`/quizzes/${quiz.id}`} className={styles.contentLink} scroll={false}>
+    <Card
+      className={`${styles.row} ${isDeleting ? styles.rowDeleting : ''}`}
+      aria-busy={isDeleting}
+      role="listitem"
+    >
+      <Link
+        href={`/quizzes/${quiz.id}`}
+        className={styles.contentLink}
+        scroll={false}
+        aria-label={`Open quiz ${quiz.title}`}
+      >
         <p className={styles.title}>{quiz.title}</p>
         <p className={styles.meta}>{quiz.questionCount} questions</p>
       </Link>

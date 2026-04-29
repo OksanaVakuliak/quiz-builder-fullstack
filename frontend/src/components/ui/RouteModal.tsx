@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useCallback, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './RouteModal.module.css';
 
@@ -16,6 +16,7 @@ export function RouteModal({
   ariaLabel = 'Quiz details dialog',
 }: RouteModalProps) {
   const router = useRouter();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const closeModal = useCallback(() => {
     if (window.history.length > 1) {
@@ -29,11 +30,27 @@ export function RouteModal({
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
 
     return () => {
       document.body.style.overflow = previousOverflow;
     };
   }, []);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [closeModal]);
 
   return (
     <div
@@ -45,8 +62,15 @@ export function RouteModal({
       }}
       role="presentation"
     >
-      <div className={styles.dialog} role="dialog" aria-modal="true" aria-label={ariaLabel}>
+      <div
+        className={styles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-label={ariaLabel}
+        tabIndex={-1}
+      >
         <button
+          ref={closeButtonRef}
           type="button"
           className={styles.closeButton}
           onClick={closeModal}
