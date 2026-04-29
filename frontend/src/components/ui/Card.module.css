@@ -5,13 +5,13 @@
   box-shadow: var(--shadow);
   padding: 1.1rem;
   transition:
-    transform 250ms linear,
-    box-shadow 250ms linear,
-    border-color 250ms linear;
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .card:hover {
   transform: translateY(-2px);
-  border-color: #bdd0e3;
-  box-shadow: 0 18px 34px rgba(18, 36, 59, 0.1);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lg);
 }

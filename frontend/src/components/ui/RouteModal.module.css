@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   padding: 1.5rem;
-  background: rgba(12, 24, 40, 0.5);
+  background: var(--overlay-modal);
   backdrop-filter: blur(2px);
   overflow-y: auto;
 }
@@ -18,7 +18,7 @@
   background: var(--bg-main);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 24px 44px rgba(10, 23, 40, 0.25);
+  box-shadow: var(--shadow-modal);
   overflow: auto;
 }
 
@@ -31,7 +31,7 @@
   height: 36px;
   border: 1px solid var(--border);
   border-radius: 999px;
-  background: #ffffff;
+  background: var(--bg-surface);
   color: var(--text-main);
   font-size: 1.4rem;
   line-height: 1;

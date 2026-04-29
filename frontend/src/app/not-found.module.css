@@ -1,5 +1,5 @@
 .wrapper {
-  min-height: 62vh;
+  min-height: var(--layout-center-min-height);
   display: grid;
   place-items: center;
 }

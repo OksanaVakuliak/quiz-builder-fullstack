@@ -4,9 +4,9 @@
   justify-content: space-between;
   gap: 1rem;
   transition:
-    opacity 250ms linear,
-    transform 250ms linear,
-    border-color 250ms linear;
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .rowDeleting {
@@ -35,22 +35,22 @@
   height: 36px;
   padding: 0 0.9rem;
   border-radius: 999px;
-  border: 1px solid #e5baba;
+  border: 1px solid var(--danger-soft-border);
   color: var(--danger);
-  background-color: #fff7f7;
+  background-color: var(--danger-soft-bg-alt);
   font-weight: 700;
   font-size: 0.84rem;
   cursor: pointer;
   transition:
-    background-color 250ms linear,
-    border-color 250ms linear,
-    color 250ms linear,
-    transform 250ms linear;
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .deleteButton:hover {
-  background-color: #ffe8e8;
-  border-color: #de8f8f;
+  background-color: var(--danger-soft-bg-hover);
+  border-color: var(--danger-soft-border-strong);
   transform: scale(1.03);
 }
 

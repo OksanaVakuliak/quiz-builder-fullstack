@@ -7,10 +7,10 @@
   line-height: 1;
   cursor: pointer;
   transition:
-    background-color 250ms linear,
-    color 250ms linear,
-    border-color 250ms linear,
-    transform 250ms linear;
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .button:hover {
@@ -25,7 +25,7 @@
 .primary {
   background-color: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  color: var(--text-inverse);
 }
 
 .primary:hover {
@@ -45,12 +45,12 @@
 }
 
 .danger {
-  background-color: #fff6f6;
-  border-color: #f4bcbc;
+  background-color: var(--danger-soft-bg);
+  border-color: var(--danger-soft-border-alt);
   color: var(--danger);
 }
 
 .danger:hover {
-  background-color: #ffe8e8;
-  border-color: #e28f8f;
+  background-color: var(--danger-soft-bg-hover);
+  border-color: var(--danger-soft-border-hover);
 }

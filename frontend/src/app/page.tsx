@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import styles from './page.module.css';
 
 export default function HomePage() {
   return (
@@ -19,10 +20,10 @@ export default function HomePage() {
         </Button>
       </div>
 
-      <div style={{ marginTop: '1.5rem' }}>
+      <div className={styles.sectionSpacing}>
         <Card>
-          <h2 style={{ marginTop: 0 }}>Assessment Scope</h2>
-          <p style={{ marginBottom: 0 }}>
+          <h2 className={styles.scopeTitle}>Assessment Scope</h2>
+          <p className={styles.scopeText}>
             Full-stack workflow with Express + Prisma on the backend and Next.js App Router on the
             frontend.
           </p>

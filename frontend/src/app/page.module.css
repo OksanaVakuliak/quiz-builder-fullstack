@@ -1,0 +1,11 @@
+.sectionSpacing {
+  margin-top: var(--page-section-gap);
+}
+
+.scopeTitle {
+  margin-top: 0;
+}
+
+.scopeText {
+  margin-bottom: 0;
+}

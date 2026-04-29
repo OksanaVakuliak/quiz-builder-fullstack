@@ -1,7 +1,7 @@
 .wrapper {
   display: grid;
   gap: 0.9rem;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--surface-elevated) 100%);
 }
 
 .headerRow {
@@ -41,11 +41,11 @@
   border-radius: var(--radius-md);
   padding: 0.64rem 0.72rem;
   font-size: 0.94rem;
-  background-color: #ffffff;
+  background-color: var(--bg-surface);
   transition:
-    border-color 250ms linear,
-    box-shadow 250ms linear,
-    background-color 250ms linear;
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
 }
 
 .textarea:focus,
@@ -53,7 +53,7 @@
 .select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0, 127, 115, 0.16);
+  box-shadow: var(--focus-ring-accent);
 }
 
 .inlineFields {
@@ -74,7 +74,7 @@
 .typeBlock {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background-color: #f7fafc;
+  background-color: var(--surface-muted);
   padding: 0.8rem;
   display: grid;
   gap: 0.7rem;

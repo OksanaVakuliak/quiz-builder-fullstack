@@ -1,5 +1,5 @@
 .wrapper {
-  min-height: 62vh;
+  min-height: var(--layout-center-min-height);
   display: grid;
   place-items: center;
 }
@@ -18,9 +18,9 @@
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 700;
-  color: #7f2a2a;
-  background: #ffe9e9;
-  border: 1px solid #f5c4c4;
+  color: var(--danger-badge-text);
+  background: var(--danger-badge-bg);
+  border: 1px solid var(--danger-badge-border);
 }
 
 .digest {

@@ -141,9 +141,7 @@ export function QuizDetail({ quizId, initialQuiz }: QuizDetailProps) {
   return (
     <div className={styles.wrapper}>
       <Card>
-        <h1 className="pageTitle" style={{ margin: 0 }}>
-          {quiz.title}
-        </h1>
+        <h1 className={`pageTitle ${styles.quizTitle}`}>{quiz.title}</h1>
         {quiz.description ? <p className="pageSubtitle">{quiz.description}</p> : null}
 
         <div className={styles.actionsRow}>
