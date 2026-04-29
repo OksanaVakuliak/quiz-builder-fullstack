@@ -147,3 +147,22 @@ npm run lint
 npm run typecheck
 npm run format:check
 ```
+
+## Deploy Backend to Render
+
+The repository includes Render Blueprint config in [render.yaml](render.yaml).
+
+If you deploy from Render Dashboard manually, use these settings for backend:
+
+- Root Directory: `backend`
+- Build Command: `npm ci && npm run prisma:generate`
+- Start Command: `npm run start`
+- Health Check Path: `/api/health`
+
+Required environment variables on Render:
+
+- `DATABASE_URL`
+- `CORS_ORIGIN` (your frontend URL)
+- `NODE_ENV=production`
+
+Important: Build Command set to only `npm` will always fail, because it only prints npm help and exits with non-zero status.
