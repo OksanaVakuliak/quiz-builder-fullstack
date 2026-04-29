@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { quizApi } from '@/lib/api/quiz.api';
+import { mapQuizToSummary } from '@/lib/quiz-summary.mapper';
 import { CreateQuizPayload, Quiz, QuizSummary } from '@/types/quiz.types';
 
 export const quizQueryKeys = {
@@ -7,22 +8,46 @@ export const quizQueryKeys = {
   detail: (quizId: number) => ['quizzes', quizId] as const,
 };
 
-export const useQuizzesQuery = (initialData?: QuizSummary[]) => {
-  return useQuery({
-    queryKey: quizQueryKeys.all,
-    queryFn: quizApi.getAll,
+interface BaseQuizQueryOptions<TData> {
+  queryKey: readonly unknown[];
+  queryFn: () => Promise<TData>;
+  initialData?: TData;
+  enabledWhenNoInitialData?: boolean;
+}
+
+const createQuizQueryOptions = <TData>({
+  queryKey,
+  queryFn,
+  initialData,
+  enabledWhenNoInitialData = true,
+}: BaseQuizQueryOptions<TData>) => {
+  return {
+    queryKey,
+    queryFn,
     initialData,
-    enabled: initialData === undefined,
-  });
+    enabled: initialData === undefined && enabledWhenNoInitialData,
+  };
+};
+
+export const useQuizzesQuery = (initialData?: QuizSummary[]) => {
+  return useQuery(
+    createQuizQueryOptions({
+      queryKey: quizQueryKeys.all,
+      queryFn: quizApi.getAll,
+      initialData,
+    })
+  );
 };
 
 export const useQuizDetailQuery = (quizId: number, initialData?: Quiz) => {
-  return useQuery({
-    queryKey: quizQueryKeys.detail(quizId),
-    queryFn: () => quizApi.getById(quizId),
-    enabled: quizId > 0 && initialData === undefined,
-    initialData,
-  });
+  return useQuery(
+    createQuizQueryOptions({
+      queryKey: quizQueryKeys.detail(quizId),
+      queryFn: () => quizApi.getById(quizId),
+      initialData,
+      enabledWhenNoInitialData: quizId > 0,
+    })
+  );
 };
 
 export const useDeleteQuizMutation = () => {
@@ -30,7 +55,11 @@ export const useDeleteQuizMutation = () => {
 
   return useMutation({
     mutationFn: (quizId: number) => quizApi.remove(quizId),
-    onSuccess: async (_result, deletedQuizId) => {
+    onMutate: async (deletedQuizId) => {
+      await queryClient.cancelQueries({ queryKey: quizQueryKeys.all });
+
+      const previousQuizzes = queryClient.getQueryData<QuizSummary[]>(quizQueryKeys.all);
+
       queryClient.setQueryData<QuizSummary[]>(quizQueryKeys.all, (currentQuizzes) => {
         if (!currentQuizzes) {
           return currentQuizzes;
@@ -39,10 +68,21 @@ export const useDeleteQuizMutation = () => {
         return currentQuizzes.filter((quiz) => quiz.id !== deletedQuizId);
       });
 
+      return { previousQuizzes };
+    },
+    onError: (_error, _deletedQuizId, context) => {
+      if (context?.previousQuizzes) {
+        queryClient.setQueryData<QuizSummary[]>(quizQueryKeys.all, context.previousQuizzes);
+      }
+    },
+    onSuccess: (_result, deletedQuizId) => {
       queryClient.removeQueries({
         queryKey: quizQueryKeys.detail(deletedQuizId),
         exact: true,
       });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: quizQueryKeys.all });
     },
   });
 };
@@ -50,17 +90,10 @@ export const useDeleteQuizMutation = () => {
 export const useCreateQuizMutation = () => {
   const queryClient = useQueryClient();
 
-  const toSummary = (quiz: Quiz): QuizSummary => ({
-    id: quiz.id,
-    title: quiz.title,
-    questionCount: quiz.questions.length,
-    createdAt: quiz.createdAt,
-  });
-
   return useMutation({
     mutationFn: (payload: CreateQuizPayload) => quizApi.create(payload),
     onSuccess: (createdQuiz) => {
-      const createdSummary = toSummary(createdQuiz);
+      const createdSummary = mapQuizToSummary(createdQuiz);
 
       queryClient.setQueryData<Quiz>(quizQueryKeys.detail(createdQuiz.id), createdQuiz);
 

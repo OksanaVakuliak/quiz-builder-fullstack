@@ -1,33 +1,23 @@
-import { createProxyErrorResponse, proxyToBackend } from '@/services/api/backend.proxy';
+import { proxyToBackend, withProxyErrorHandling } from '@/services/api/backend.proxy';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request) {
-  try {
-    const search = new URL(request.url).search;
+export const GET = withProxyErrorHandling(async (request: Request) => {
+  const search = new URL(request.url).search;
 
-    return await proxyToBackend({
-      path: '/quizzes',
-      method: 'GET',
-      search,
-    });
-  } catch (error) {
-    console.error(error);
-    return createProxyErrorResponse(error);
-  }
-}
+  return proxyToBackend({
+    path: '/quizzes',
+    method: 'GET',
+    search,
+  });
+});
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.text();
+export const POST = withProxyErrorHandling(async (request: Request) => {
+  const body = await request.text();
 
-    return await proxyToBackend({
-      path: '/quizzes',
-      method: 'POST',
-      body,
-    });
-  } catch (error) {
-    console.error(error);
-    return createProxyErrorResponse(error);
-  }
-}
+  return proxyToBackend({
+    path: '/quizzes',
+    method: 'POST',
+    body,
+  });
+});

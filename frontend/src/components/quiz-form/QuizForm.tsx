@@ -1,75 +1,30 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { createDefaultQuestion, mapFormToPayload, normalizeQuestionOrders } from '@/lib/mappers';
-import { createQuizSchema } from '@/schemas/quiz-form.schema';
-import { useCreateQuizMutation } from '@/services/api/quiz.query';
-import { CreateQuizFormValues, QuestionType } from '@/types/quiz.types';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { QuestionEditor } from './QuestionEditor';
+import { useQuizFormController } from './useQuizFormController';
 import styles from './QuizForm.module.css';
 
-const createInitialFormValues = (): CreateQuizFormValues => ({
-  title: '',
-  description: '',
-  questions: [createDefaultQuestion('BOOLEAN', 0)],
-});
-
 export function QuizForm() {
-  const router = useRouter();
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const createQuizMutation = useCreateQuizMutation();
-
   const {
-    handleSubmit,
-    watch,
+    errors,
+    isSubmitting,
+    isCreatePending,
+    submitError,
+    title,
+    description,
+    questions,
     setValue,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<CreateQuizFormValues>({
-    resolver: zodResolver(createQuizSchema),
-    defaultValues: createInitialFormValues(),
-  });
-
-  const values = watch();
-  const questions = values.questions || [];
-
-  const updateQuestions = (nextQuestions: CreateQuizFormValues['questions']) => {
-    setValue('questions', normalizeQuestionOrders(nextQuestions), {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
-
-  const addQuestion = (type: QuestionType) => {
-    updateQuestions([...questions, createDefaultQuestion(type, questions.length)]);
-  };
-
-  const removeQuestion = (index: number) => {
-    const filtered = questions.filter((_, questionIndex) => questionIndex !== index);
-    updateQuestions(filtered.length > 0 ? filtered : [createDefaultQuestion('BOOLEAN', 0)]);
-  };
-
-  const onSubmit = async (formValues: CreateQuizFormValues) => {
-    setSubmitError(null);
-
-    try {
-      const payload = mapFormToPayload(formValues);
-      const createdQuiz = await createQuizMutation.mutateAsync(payload);
-      reset(createInitialFormValues());
-      router.push(`/quizzes/${createdQuiz.id}`);
-    } catch (error) {
-      console.error(error);
-      setSubmitError('Could not create quiz. Please verify API server is running.');
-    }
-  };
+    submit,
+    addQuestion,
+    removeQuestion,
+    setTitle,
+    setDescription,
+  } = useQuizFormController();
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.form} onSubmit={submit}>
       <Card className={styles.sectionCard}>
         <div className={styles.fieldGroup}>
           <label htmlFor="title" className={styles.label}>
@@ -78,9 +33,9 @@ export function QuizForm() {
           <input
             id="title"
             className={styles.input}
-            value={values.title || ''}
+            value={title}
             onChange={(event) => {
-              setValue('title', event.target.value, { shouldDirty: true, shouldValidate: true });
+              setTitle(event.target.value);
             }}
             placeholder="Frontend Knowledge Check"
           />
@@ -95,12 +50,9 @@ export function QuizForm() {
             id="description"
             className={styles.textarea}
             rows={3}
-            value={values.description || ''}
+            value={description}
             onChange={(event) => {
-              setValue('description', event.target.value, {
-                shouldDirty: true,
-                shouldValidate: true,
-              });
+              setDescription(event.target.value);
             }}
             placeholder="A short intro for quiz reviewers"
           />
@@ -148,8 +100,8 @@ export function QuizForm() {
       {submitError ? <p className={styles.error}>{submitError}</p> : null}
 
       <div className={styles.submitRow}>
-        <Button type="submit" disabled={isSubmitting || createQuizMutation.isPending}>
-          {isSubmitting || createQuizMutation.isPending ? 'Creating quiz...' : 'Create quiz'}
+        <Button type="submit" disabled={isSubmitting || isCreatePending}>
+          {isSubmitting || isCreatePending ? 'Creating quiz...' : 'Create quiz'}
         </Button>
       </div>
     </form>

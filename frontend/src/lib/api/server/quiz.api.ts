@@ -1,5 +1,6 @@
 import { headers } from 'next/headers';
-import { ApiErrorResponse, ApiResponse } from '@/types/api.types';
+import { extractApiErrorMessage } from '@/lib/api/errors';
+import { ApiResponse } from '@/types/api.types';
 import { Quiz, QuizSummary } from '@/types/quiz.types';
 
 const fallbackAppBaseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -27,11 +28,13 @@ export class ServerApiError extends Error {
 }
 
 const extractErrorMessage = async (response: Response): Promise<string> => {
+  const fallbackMessage = `Request failed with status ${response.status}`;
+
   try {
-    const payload = (await response.json()) as Partial<ApiErrorResponse>;
-    return payload.message || payload.error || `Request failed with status ${response.status}`;
+    const payload = await response.json();
+    return extractApiErrorMessage(payload, fallbackMessage);
   } catch {
-    return `Request failed with status ${response.status}`;
+    return fallbackMessage;
   }
 };
 

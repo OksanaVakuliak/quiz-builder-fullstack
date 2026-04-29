@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getErrorMessage } from '@/lib/error-message';
 import { useDeleteQuizMutation, useQuizzesQuery } from '@/services/api/quiz.query';
 import { QuizSummary } from '@/types/quiz.types';
 import { AppLoader } from '@/components/ui/AppLoader';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Toast } from '@/components/ui/Toast';
 import { QuizListItem } from './QuizListItem';
 import styles from './QuizList.module.css';
 
@@ -14,20 +16,32 @@ interface QuizListClientProps {
   initialQuizzes?: QuizSummary[];
 }
 
-const getErrorMessage = (error: unknown, fallbackMessage: string): string => {
-  if (error instanceof Error && error.message.trim().length > 0) {
-    return error.message;
-  }
-
-  return fallbackMessage;
-};
+interface ToastState {
+  message: string;
+  variant: 'success' | 'error';
+}
 
 export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
   const [deletingQuizId, setDeletingQuizId] = useState<number | null>(null);
   const [mutationErrorMessage, setMutationErrorMessage] = useState<string | null>(null);
+  const [toast, setToast] = useState<ToastState | null>(null);
 
   const { data: quizzes = [], isPending, isError, error } = useQuizzesQuery(initialQuizzes);
   const deleteQuizMutation = useDeleteQuizMutation();
+
+  useEffect(() => {
+    if (!toast) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setToast(null);
+    }, 3500);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [toast]);
 
   const handleDelete = async (id: number) => {
     setMutationErrorMessage(null);
@@ -35,9 +49,12 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
 
     try {
       await deleteQuizMutation.mutateAsync(id);
+      setToast({ message: 'Quiz deleted.', variant: 'success' });
     } catch (deleteError) {
       console.error(deleteError);
-      setMutationErrorMessage('Failed to delete quiz. Try again.');
+      const nextErrorMessage = getErrorMessage(deleteError, 'Failed to delete quiz. Try again.');
+      setMutationErrorMessage(nextErrorMessage);
+      setToast({ message: nextErrorMessage, variant: 'error' });
     } finally {
       setDeletingQuizId(null);
     }
@@ -81,6 +98,10 @@ export function QuizListClient({ initialQuizzes }: QuizListClientProps) {
           ))}
         </div>
       )}
+
+      {toast ? (
+        <Toast message={toast.message} variant={toast.variant} onClose={() => setToast(null)} />
+      ) : null}
     </div>
   );
 }

@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { QuizDetail } from '@/components/quiz-detail/QuizDetail';
 import { RouteModal } from '@/components/ui/RouteModal';
-import { createPageMetadata } from '@/lib/metadata';
-import { ServerApiError, serverQuizApi } from '@/lib/api/server/quiz.api';
+import {
+  createInvalidQuizDetailMetadata,
+  createQuizDetailMetadata,
+  getQuizDetail,
+  parseQuizId,
+  ServerApiError,
+} from '@/lib/server/quiz-detail.page';
 
 interface ModalQuizDetailPageProps {
   params: Promise<{
@@ -16,53 +21,15 @@ export async function generateMetadata({ params }: ModalQuizDetailPageProps): Pr
   const quizId = parseQuizId(id);
 
   if (Number.isNaN(quizId) || quizId <= 0) {
-    return createPageMetadata({
-      title: 'Quiz details',
-      description: 'Open a quiz to review questions and solve it.',
-      path: '/quizzes',
-    });
+    return createInvalidQuizDetailMetadata();
   }
 
-  try {
-    const quiz = await serverQuizApi.getById(quizId);
-
-    return createPageMetadata({
-      title: quiz.title,
-      description: quiz.description?.trim() || 'Open this quiz and check your answers.',
-      path: `/quizzes/${quizId}`,
-      type: 'article',
-    });
-  } catch (_error) {
-    return createPageMetadata({
-      title: `Quiz #${quizId}`,
-      description: 'Open this quiz and check your answers.',
-      path: `/quizzes/${quizId}`,
-      type: 'article',
-    });
-  }
+  return createQuizDetailMetadata(quizId);
 }
-
-const parseQuizId = (rawId: string): number => {
-  const directId = Number(rawId);
-
-  if (Number.isInteger(directId) && directId > 0) {
-    return directId;
-  }
-
-  // Some intercepted RSC navigations can pass id with routing markers around it.
-  const tailNumber = rawId.match(/\d+/g)?.at(-1);
-  const normalizedId = Number(tailNumber);
-
-  if (Number.isInteger(normalizedId) && normalizedId > 0) {
-    return normalizedId;
-  }
-
-  return Number.NaN;
-};
 
 const getInitialQuiz = async (quizId: number) => {
   try {
-    return await serverQuizApi.getById(quizId);
+    return await getQuizDetail(quizId);
   } catch (error) {
     if (error instanceof ServerApiError && error.status === 404) {
       notFound();

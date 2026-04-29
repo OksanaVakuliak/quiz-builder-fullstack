@@ -3,6 +3,7 @@ import { createDefaultQuestion } from '@/lib/mappers';
 import { CreateQuizFormValues, QuestionForm, QuestionType } from '@/types/quiz.types';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { setValidatedFormValue } from './form-value.helpers';
 import { QuestionTypeFields } from './QuestionTypeFields';
 import styles from './QuestionEditor.module.css';
 
@@ -28,16 +29,12 @@ export function QuestionEditor({
   const handleTypeChange = (nextType: QuestionType) => {
     const template = createDefaultQuestion(nextType, question.order);
 
-    setValue(
-      `questions.${index}`,
-      {
-        ...template,
-        clientId: question.clientId || template.clientId,
-        prompt: question.prompt,
-        required: question.required,
-      },
-      { shouldDirty: true, shouldValidate: true }
-    );
+    setValidatedFormValue(setValue, `questions.${index}`, {
+      ...template,
+      clientId: question.clientId || template.clientId,
+      prompt: question.prompt,
+      required: question.required,
+    });
   };
 
   return (
@@ -57,10 +54,7 @@ export function QuestionEditor({
             rows={3}
             value={question.prompt}
             onChange={(event) => {
-              setValue(`questions.${index}.prompt`, event.target.value, {
-                shouldDirty: true,
-                shouldValidate: true,
-              });
+              setValidatedFormValue(setValue, `questions.${index}.prompt`, event.target.value);
             }}
             placeholder="Write your question prompt"
           />
@@ -90,10 +84,11 @@ export function QuestionEditor({
               type="checkbox"
               checked={question.required}
               onChange={(event) => {
-                setValue(`questions.${index}.required`, event.target.checked, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                });
+                setValidatedFormValue(
+                  setValue,
+                  `questions.${index}.required`,
+                  event.target.checked
+                );
               }}
             />
             Required

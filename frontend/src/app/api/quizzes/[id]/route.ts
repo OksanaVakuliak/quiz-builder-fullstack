@@ -1,4 +1,4 @@
-import { createProxyErrorResponse, proxyToBackend } from '@/services/api/backend.proxy';
+import { proxyToBackend, withProxyErrorHandling } from '@/services/api/backend.proxy';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,30 +8,17 @@ interface QuizByIdRouteContext {
   }>;
 }
 
-export async function GET(_request: Request, { params }: QuizByIdRouteContext) {
-  try {
+const createQuizByIdHandler = (method: 'GET' | 'DELETE') => {
+  return withProxyErrorHandling(async (_request: Request, { params }: QuizByIdRouteContext) => {
     const { id } = await params;
 
-    return await proxyToBackend({
+    return proxyToBackend({
       path: `/quizzes/${id}`,
-      method: 'GET',
+      method,
     });
-  } catch (error) {
-    console.error(error);
-    return createProxyErrorResponse(error);
-  }
-}
+  });
+};
 
-export async function DELETE(_request: Request, { params }: QuizByIdRouteContext) {
-  try {
-    const { id } = await params;
+export const GET = createQuizByIdHandler('GET');
 
-    return await proxyToBackend({
-      path: `/quizzes/${id}`,
-      method: 'DELETE',
-    });
-  } catch (error) {
-    console.error(error);
-    return createProxyErrorResponse(error);
-  }
-}
+export const DELETE = createQuizByIdHandler('DELETE');

@@ -11,6 +11,8 @@ interface ProxyToBackendOptions {
   search?: string;
 }
 
+type AsyncRouteHandler<TArgs extends unknown[]> = (...args: TArgs) => Promise<Response>;
+
 const toBackendUrl = (path: string, search?: string): string => {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const baseUrl = `${backendApiBaseUrl}${normalizedPath}`;
@@ -97,4 +99,17 @@ export const createProxyErrorResponse = (error?: unknown): Response => {
     },
     { status: 502 }
   );
+};
+
+export const withProxyErrorHandling = <TArgs extends unknown[]>(
+  handler: AsyncRouteHandler<TArgs>
+): AsyncRouteHandler<TArgs> => {
+  return async (...args: TArgs) => {
+    try {
+      return await handler(...args);
+    } catch (error) {
+      console.error(error);
+      return createProxyErrorResponse(error);
+    }
+  };
 };
