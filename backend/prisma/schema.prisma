@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum QuestionType {
+  BOOLEAN
+  INPUT
+  CHECKBOX
+}
+
+model Quiz {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  questions   Question[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("quizzes")
+}
+
+model Question {
+  id            Int            @id @default(autoincrement())
+  quizId         Int
+  quiz           Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  type           QuestionType
+  prompt         String
+  order          Int
+  required       Boolean        @default(true)
+  booleanAnswer  Boolean?
+  inputAnswer    String?
+  options        QuestionOption[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([quizId, order])
+  @@unique([quizId, order])
+  @@map("questions")
+}
+
+model QuestionOption {
+  id          Int      @id @default(autoincrement())
+  questionId  Int
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  label       String
+  isCorrect   Boolean  @default(false)
+  order       Int
+
+  @@index([questionId, order])
+  @@map("question_options")
+}

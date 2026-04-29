@@ -1,0 +1,42 @@
+{
+  "name": "quiz-builder-backend",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint \"src/**/*.js\" \"prisma/**/*.js\"",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write \"src/**/*.js\" \"prisma/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"prisma/**/*.js\"",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.8.0",
+    "@prisma/client": "7.8.0",
+    "cors": "2.8.6",
+    "dotenv": "17.4.2",
+    "express": "5.2.1",
+    "pg": "8.20.0",
+    "pino-http": "^11.0.0",
+    "pino-pretty": "^13.1.3",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.2.1",
+    "globals": "^17.5.0",
+    "nodemon": "3.1.14",
+    "prettier": "3.8.3",
+    "prisma": "7.8.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
