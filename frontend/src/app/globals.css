@@ -1,0 +1,130 @@
+:root {
+  --bg-main: #f4f6f8;
+  --bg-surface: #ffffff;
+  --bg-soft: #f0f5fb;
+  --text-main: #12243b;
+  --text-muted: #4d5d73;
+  --accent: #007f73;
+  --accent-strong: #00645a;
+  --danger: #b33a3a;
+  --border: #d7e0ea;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 14px 30px rgba(18, 36, 59, 0.08);
+  --transition-fast: 250ms linear;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top right, rgba(0, 127, 115, 0.14), transparent 38%),
+    linear-gradient(180deg, #f8fafc 0%, var(--bg-main) 100%);
+  color: var(--text-main);
+  font-family: var(--font-body), sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.appHeader {
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+}
+
+.brand {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1rem;
+}
+
+.navLinks a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.navLinks a:hover {
+  background-color: var(--bg-soft);
+  color: var(--accent-strong);
+}
+
+.pageContainer {
+  padding: 2rem 0 3rem;
+}
+
+.pageTitle {
+  font-family: var(--font-heading), sans-serif;
+  margin: 0;
+  font-size: clamp(1.65rem, 3vw, 2.3rem);
+  letter-spacing: 0.01em;
+}
+
+.pageSubtitle {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  max-width: 64ch;
+}
+
+.heroActions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+  .headerContent {
+    min-height: 64px;
+  }
+
+  .navLinks {
+    gap: 0.4rem;
+  }
+
+  .navLinks a {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.92rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}

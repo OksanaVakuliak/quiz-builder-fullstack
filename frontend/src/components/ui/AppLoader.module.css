@@ -1,0 +1,184 @@
+.wrapper {
+  min-height: 62vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 0.9rem;
+}
+
+.compactWrapper {
+  min-height: 220px;
+  gap: 0.55rem;
+}
+
+.stage {
+  --orbit-size: 180px;
+  position: relative;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  display: grid;
+  place-items: center;
+}
+
+.compactStage {
+  --orbit-size: 124px;
+}
+
+.aura {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 127, 115, 0.24) 0%, rgba(0, 127, 115, 0) 72%);
+  filter: blur(0.6px);
+  animation: pulse 2200ms ease-in-out infinite;
+}
+
+.ring {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 100, 90, 0.35);
+  animation: spin 4800ms linear infinite;
+}
+
+.centerMark {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 20px rgba(18, 36, 59, 0.16);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.55rem;
+  color: var(--accent-strong);
+}
+
+.compactCenterMark {
+  width: 44px;
+  height: 44px;
+  font-size: 1.22rem;
+}
+
+.chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 76px;
+  height: 30px;
+  margin-left: -38px;
+  margin-top: -15px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
+  box-shadow: 0 6px 14px rgba(18, 36, 59, 0.14);
+}
+
+.compactChip {
+  width: 66px;
+  height: 27px;
+  margin-left: -33px;
+  margin-top: -13.5px;
+  font-size: 0.58rem;
+}
+
+.booleanChip {
+  animation: orbitA 2600ms ease-in-out infinite;
+}
+
+.inputChip {
+  animation: orbitB 2600ms ease-in-out infinite;
+}
+
+.checkboxChip {
+  animation: orbitC 2600ms ease-in-out infinite;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+}
+
+.compactTitle {
+  font-size: 1rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.compactSubtitle {
+  font-size: 0.84rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes orbitA {
+  0%,
+  100% {
+    transform: rotate(0deg) translateX(74px) rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg) translateX(74px) rotate(-180deg);
+  }
+}
+
+@keyframes orbitB {
+  0%,
+  100% {
+    transform: rotate(120deg) translateX(74px) rotate(-120deg);
+  }
+
+  50% {
+    transform: rotate(300deg) translateX(74px) rotate(-300deg);
+  }
+}
+
+@keyframes orbitC {
+  0%,
+  100% {
+    transform: rotate(240deg) translateX(74px) rotate(-240deg);
+  }
+
+  50% {
+    transform: rotate(420deg) translateX(74px) rotate(-420deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring,
+  .aura,
+  .booleanChip,
+  .inputChip,
+  .checkboxChip {
+    animation: none;
+  }
+}

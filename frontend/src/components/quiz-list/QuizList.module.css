@@ -1,0 +1,18 @@
+.listWrapper {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+}
+
+.emptyText {
+  margin-top: 0;
+}

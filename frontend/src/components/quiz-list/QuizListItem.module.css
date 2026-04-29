@@ -1,0 +1,61 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition:
+    opacity 250ms linear,
+    transform 250ms linear,
+    border-color 250ms linear;
+}
+
+.rowDeleting {
+  opacity: 0.5;
+  transform: translateX(8px);
+}
+
+.contentLink {
+  display: block;
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.meta {
+  margin: 0.2rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.deleteButton {
+  min-width: 86px;
+  height: 36px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #e5baba;
+  color: var(--danger);
+  background-color: #fff7f7;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition:
+    background-color 250ms linear,
+    border-color 250ms linear,
+    color 250ms linear,
+    transform 250ms linear;
+}
+
+.deleteButton:hover {
+  background-color: #ffe8e8;
+  border-color: #de8f8f;
+  transform: scale(1.03);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}

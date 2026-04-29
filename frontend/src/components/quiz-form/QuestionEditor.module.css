@@ -1,0 +1,135 @@
+.wrapper {
+  display: grid;
+  gap: 0.9rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.05rem;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label,
+.subLabel {
+  margin: 0;
+  font-weight: 600;
+}
+
+.textarea,
+.input,
+.select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.64rem 0.72rem;
+  font-size: 0.94rem;
+  background-color: #ffffff;
+  transition:
+    border-color 250ms linear,
+    box-shadow 250ms linear,
+    background-color 250ms linear;
+}
+
+.textarea:focus,
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 127, 115, 0.16);
+}
+
+.inlineFields {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.requiredToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.55rem;
+  font-size: 0.93rem;
+}
+
+.typeBlock {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: #f7fafc;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.radioRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.radioOption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.checkboxHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.optionsStack {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.optionRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.correctToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .requiredToggle {
+    margin-top: 0;
+  }
+
+  .optionRow {
+    grid-template-columns: 1fr;
+  }
+}

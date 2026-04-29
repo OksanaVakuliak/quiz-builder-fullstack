@@ -1,0 +1,30 @@
+.wrapper {
+  min-height: 62vh;
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  width: min(680px, 100%);
+  text-align: center;
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.code {
+  margin: 0;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(2.4rem, 10vw, 4.8rem);
+  line-height: 0.95;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+.actions {
+  margin-top: 0.4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
